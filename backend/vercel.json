@@ -4,18 +4,11 @@
     { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/oauth/(.*)", "destination": "/api" },
     { "source": "/health", "destination": "/api" },
+    { "source": "/", "destination": "/index.html" },
     { "source": "/dashboard", "destination": "/index.html" },
-    { "source": "/terms.html", "destination": "/public/terms.html" },
-    { "source": "/terms", "destination": "/public/terms.html" },
-    { "source": "/eula.html", "destination": "/public/eula.html" },
-    { "source": "/privacy.html", "destination": "/public/privacy.html" },
-    { "source": "/privacy", "destination": "/public/privacy.html" },
-    { "source": "/support.html", "destination": "/public/support.html" },
-    { "source": "/support", "destination": "/public/support.html" },
-    { "source": "/logo.svg", "destination": "/public/logo.svg" },
-    { "source": "/logo.jpg", "destination": "/public/logo.jpg" },
-    { "source": "/logo-transparent.png", "destination": "/public/logo-transparent.png" },
-    { "source": "/logo-thumb.png", "destination": "/public/logo-thumb.png" },
-    { "source": "/app-icon.png", "destination": "/public/app-icon.png" }
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/support", "destination": "/support.html" },
+    { "source": "/eula", "destination": "/eula.html" }
   ]
 }

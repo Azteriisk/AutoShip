@@ -1,6 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
 import { RateController } from './controllers/rateController.js';
 import { ShipmentController } from './controllers/shipmentController.js';
 import { SettingsController } from './controllers/settingsController.js';
@@ -86,7 +87,12 @@ export function createApp(): Express {
 
   // Serve Dashboard on root or /dashboard
   app.get(['/', '/dashboard'], (req: Request, res: Response) => {
-    res.sendFile(path.join(publicDir, 'index.html'));
+    const indexPath = path.join(publicDir, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.redirect('/index.html');
+    }
   });
 
   // 404 Handler for API
