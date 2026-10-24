@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import {
   MerchantSettings,
   PackagePreset,
@@ -213,9 +214,23 @@ export class Database {
   private quotesCache: Map<string, RateQuoteResponse> = new Map();
 
   private constructor() {
-    const dataDir = path.resolve(process.cwd(), 'data');
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
+    let dataDir = path.resolve(process.cwd(), 'data');
+    if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+      dataDir = path.join(os.tmpdir(), 'autoship-data');
+    }
+    try {
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+      }
+    } catch {
+      dataDir = path.join(os.tmpdir(), 'autoship-data');
+      try {
+        if (!fs.existsSync(dataDir)) {
+          fs.mkdirSync(dataDir, { recursive: true });
+        }
+      } catch {
+        // Fallback for read-only environment
+      }
     }
     const fileName =
       process.env.AUTOSHIP_DATA_FILE ||
@@ -269,7 +284,7 @@ export class Database {
       try {
         fs.writeFileSync(this.filePath, JSON.stringify(dataToSave, null, 2), 'utf-8');
       } catch (e) {
-        console.error('Failed to save autoship.json:', e);
+        console.warn('Could not persist autoship data to disk (in-memory store active):', e);
       }
     }
   }
