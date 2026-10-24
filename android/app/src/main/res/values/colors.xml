@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AutoShip Brand Identity: Electric Sky Cyan (Logo Parcel Faces) -->
+    <color name="primary">#0284C7</color>
+    <color name="primary_dark">#0369A1</color>
+    <color name="primary_light">#16233F</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="brand_cyan">#38BDF8</color>
+    <color name="brand_cyan_light">#7DD3FC</color>
+    <color name="brand_cyan_dark">#0369A1</color>
+    <color name="brand_cyan_primary">#0284C7</color>
+
+    <!-- AutoShip Brand Identity: Velocity Mint / Emerald (Logo Speed Orbit Arrow) -->
+    <color name="brand_mint">#34D399</color>
+    <color name="brand_mint_deep">#10B981</color>
+    <color name="brand_mint_dark">#059669</color>
+    <color name="brand_mint_light">#6EE7B7</color>
+
+    <!-- Clover action button mapping aligned with Velocity Mint -->
+    <color name="clover_green">#10B981</color>
+    <color name="clover_green_dark">#059669</color>
+    <color name="clover_green_light">#064E3B</color>
+
+    <!-- Midnight Slate Canvas & Surfaces (Matching Web Dashboard) -->
+    <color name="background">#070D1E</color>
+    <color name="background_canvas">#070D1E</color>
+    <color name="background_darker">#020617</color>
+    <color name="surface">#0F172A</color>
+    <color name="surface_card">#0F172A</color>
+    <color name="surface_variant">#16233F</color>
+    <color name="surface_input">#0B132B</color>
+    
+    <!-- Glowing Borders & Dividers -->
+    <color name="divider">#1E293B</color>
+    <color name="border_unselected">#1E293B</color>
+    <color name="border_subtle">#162846</color>
+    <color name="border_selected">#38BDF8</color>
+    <color name="border_mint">#34D399</color>
+
+    <!-- Text Hierarchy on Dark Slate -->
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_hint">#64748B</color>
+    <color name="text_highlight">#BAE6FD</color>
+    <color name="text_on_dark">#FFFFFF</color>
+
+    <!-- Badges & Status Alerts -->
+    <color name="badge_free_shipping_bg">#064E3B</color>
+    <color name="badge_free_shipping_text">#34D399</color>
+    <color name="badge_free_shipping_border">#10B981</color>
+
+    <color name="insurance_highlight_bg">#0C2B4E</color>
+    <color name="insurance_highlight_text">#38BDF8</color>
+
+    <color name="error_bg">#450A0A</color>
+    <color name="error_text">#F87171</color>
+    <color name="error_border">#EF4444</color>
+
+    <!-- Carrier Identity Colors (High-Contrast for Dark Surfaces) -->
+    <color name="carrier_usps">#38BDF8</color>
+    <color name="carrier_ups">#F59E0B</color>
+    <color name="carrier_fedex">#C084FC</color>
+</resources>

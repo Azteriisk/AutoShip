@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+
+    <!-- Box Face Gradients -->
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+    <linearGradient id="leftFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0369A1" />
+      <stop offset="100%" stop-color="#075985" />
+    </linearGradient>
+
+    <!-- Speed Arrow Gradient -->
+    <linearGradient id="speedGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <linearGradient id="fastTrack" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- App Icon Base (Rounded Square for Clover / Mobile) -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+
+  <!-- Background Speed Streaks -->
+  <path d="M 60 210 L 160 210" stroke="url(#fastTrack)" stroke-width="8" stroke-linecap="round" />
+  <path d="M 40 256 L 140 256" stroke="url(#fastTrack)" stroke-width="12" stroke-linecap="round" />
+  <path d="M 70 302 L 180 302" stroke="url(#fastTrack)" stroke-width="8" stroke-linecap="round" />
+
+  <!-- 3D Isometric Shipping Parcel -->
+  <g transform="translate(256, 256)">
+    <!-- Top Face -->
+    <polygon points="0,-100 115,-34 0,32 -115,-34" fill="url(#topFace)" />
+    
+    <!-- Left Face -->
+    <polygon points="-115,-34 0,32 0,166 -115,100" fill="url(#leftFace)" />
+    
+    <!-- Right Face -->
+    <polygon points="0,32 115,-34 115,100 0,166" fill="url(#rightFace)" />
+
+    <!-- Box Seam Tape Detail -->
+    <polygon points="0,-100 24,-86 0,-72 -24,-86" fill="rgba(255,255,255,0.3)" />
+    <polygon points="0,-72 24,-58 0,-44 -24,-58" fill="rgba(255,255,255,0.2)" />
+    <polygon points="0,-44 24,-30 0,-16 -24,-30" fill="rgba(255,255,255,0.2)" />
+    
+    <!-- Vertical Seam on Front -->
+    <line x1="0" y1="32" x2="0" y2="166" stroke="rgba(255,255,255,0.15)" stroke-width="3" />
+
+    <!-- Shipping Label on Left Face -->
+    <polygon points="-85,12 -35,40 -35,85 -85,57" fill="#FFFFFF" opacity="0.9" />
+    <line x1="-75" y1="32" x2="-45" y2="49" stroke="#0F172A" stroke-width="3" />
+    <line x1="-75" y1="44" x2="-55" y2="55" stroke="#0F172A" stroke-width="2.5" />
+    <line x1="-75" y1="56" x2="-45" y2="73" stroke="#0F172A" stroke-width="3" />
+
+    <!-- Dynamic "AutoShip" Orbiting Velocity Arrow -->
+    <path d="M -160,70 C -170,-40 -80,-140 40,-130 C 130,-122 170,-30 145,50 C 120,130 10,175 -70,140"
+          fill="none" stroke="url(#speedGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="280 40" filter="url(#glow)" />
+
+    <!-- Arrow Head -->
+    <polygon points="-75,130 -110,145 -70,165" fill="#34D399" filter="url(#glow)" />
+  </g>
+</svg>

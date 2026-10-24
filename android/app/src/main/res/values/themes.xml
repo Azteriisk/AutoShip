@@ -1,0 +1,51 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- AutoShip Midnight Slate & Velocity Mint Dark Theme (1:1 with Web Dashboard) -->
+    <style name="Theme.AutoShip" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Primary brand color (Electric Sky Cyan) -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+
+        <!-- Secondary brand color (Velocity Mint) -->
+        <item name="colorSecondary">@color/brand_mint_deep</item>
+        <item name="colorSecondaryVariant">@color/brand_mint_dark</item>
+        <item name="colorOnSecondary">@color/on_primary</item>
+
+        <!-- Surfaces and Backgrounds -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:colorBackground">@color/background</item>
+
+        <!-- Status bar and Navigation bar -->
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
+
+        <!-- Text Colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+
+        <!-- Card Styles -->
+        <item name="cardViewStyle">@style/Widget.AutoShip.CardView</item>
+        <item name="materialCardViewStyle">@style/Widget.AutoShip.CardView</item>
+    </style>
+
+    <style name="Widget.AutoShip.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="strokeColor">@color/border_unselected</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- Dialog Style for Address Entry Modal -->
+    <style name="Theme.AutoShip.Dialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/brand_mint_deep</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>

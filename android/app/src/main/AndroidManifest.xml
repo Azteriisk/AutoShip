@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Network permissions for AutoShip Cloud API communication -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Clover Authentication & Connector permissions -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.clover.permission.ACTION_ORDER_SERVICE" />
+    <uses-permission android:name="clover.permission.ACTION_ORDER_SERVICE" />
+    <uses-permission android:name="com.clover.permission.ACTION_CUSTOMER_SERVICE" />
+    <uses-permission android:name="clover.permission.ACTION_CUSTOMER_SERVICE" />
+    <uses-permission android:name="com.clover.permission.READ_ORDERS" />
+    <uses-permission android:name="com.clover.permission.WRITE_ORDERS" />
+    <uses-permission android:name="com.clover.permission.READ_CUSTOMERS" />
+    <uses-permission android:name="com.clover.permission.WRITE_CUSTOMERS" />
+
+    <application
+        android:name=".AutoShipApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AutoShip"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+
+        <!-- Main Shipping Activity: supports direct launch & Register MODIFY_ORDER extension -->
+        <activity
+            android:name=".ui.shipping.ShippingActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+
+            <!-- App Launcher Intent -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Clover Register Modify Order Action Filter -->
+            <!-- Allows cashier to tap AutoShip button directly from active Register cart -->
+            <intent-filter>
+                <action android:name="clover.intent.action.MODIFY_ORDER" />
+                <action android:name="com.clover.intent.action.MODIFY_ORDER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Clover Register Custom Action Extension Meta-Data -->
+            <meta-data
+                android:name="clover.intent.action.MODIFY_ORDER"
+                android:value="true" />
+        </activity>
+
+        <!-- Merchant Settings Activity -->
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".ui.shipping.ShippingActivity" />
+
+    </application>
+
+</manifest>

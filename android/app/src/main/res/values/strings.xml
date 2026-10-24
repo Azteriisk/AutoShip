@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AutoShip</string>
+    <string name="title_activity_settings">AutoShip Settings</string>
+
+    <!-- Shipping Activity Header -->
+    <string name="header_order_title">Order Shipping</string>
+    <string name="order_number_format">Order #%s</string>
+    <string name="order_summary_format">%1$d item(s) • Subtotal: %2$s</string>
+    <string name="no_order_active">No active Clover order found. Tap Refresh or open from Register.</string>
+
+    <!-- Address Section -->
+    <string name="section_address_title">Delivery Destination</string>
+    <string name="address_placeholder">No shipping address attached to order.</string>
+    <string name="btn_edit_address">Edit / Enter Address</string>
+    <string name="btn_add_address">Add Address</string>
+
+    <!-- Carrier & Rates Section -->
+    <string name="section_rates_title">Available Shipping Methods</string>
+    <string name="rates_loading">Calculating real-time shipping rates...</string>
+    <string name="rates_empty">No carrier rates available for this destination.</string>
+    <string name="rates_error">Unable to fetch rates. Check network connection or address.</string>
+    <string name="est_delivery_format">Est. Delivery: %s</string>
+    <string name="est_days_format">%d business day(s)</string>
+
+    <!-- Free Shipping Banner -->
+    <string name="free_shipping_banner_title">Free Shipping Applied!</string>
+    <string name="free_shipping_banner_desc">Order qualifies for free shipping promotion (%s waived via discount).</string>
+
+    <!-- Insurance Section -->
+    <string name="label_shipping_insurance">Add Shipping Protection / Insurance</string>
+    <string name="insurance_cost_format">+%s (Full replacement coverage)</string>
+    <string name="insurance_subtitle">Covers lost, damaged, or stolen packages in transit</string>
+
+    <!-- Bottom Action Bar -->
+    <string name="total_shipping_label">Total Shipping Fee:</string>
+    <string name="btn_apply_shipping">Apply Shipping to Order</string>
+    <string name="btn_refresh">Refresh Rates</string>
+    <string name="applying_shipping_progress">Adding shipping line item to Clover order...</string>
+    <string name="shipping_applied_success">Shipping added to order successfully!</string>
+
+    <!-- Address Dialog -->
+    <string name="dialog_address_title">Customer Shipping Address</string>
+    <string name="hint_recipient_name">Full Name *</string>
+    <string name="hint_street1">Street Address *</string>
+    <string name="hint_street2">Apartment, Suite, Unit, etc. (Optional)</string>
+    <string name="hint_city">City *</string>
+    <string name="hint_state">State (e.g. CA, NY) *</string>
+    <string name="hint_zip">ZIP Code *</string>
+    <string name="hint_phone">Phone Number (Optional)</string>
+    <string name="btn_save_address">Save Address</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <!-- Validation Errors -->
+    <string name="error_name_required">Recipient name is required</string>
+    <string name="error_street_required">Street address is required</string>
+    <string name="error_city_required">City is required</string>
+    <string name="error_state_required">Valid 2-letter state code required</string>
+    <string name="error_zip_required">Valid 5-digit ZIP code required</string>
+
+    <!-- Settings Activity -->
+    <string name="settings_section_backend">Backend Connection</string>
+    <string name="settings_api_url_label">AutoShip Backend API URL</string>
+    <string name="settings_api_url_hint">e.g. http://10.0.2.2:3000/ or https://api.autoship.io/</string>
+    <string name="settings_api_key_label">Terminal API Key / Token</string>
+    <string name="settings_api_key_hint">Enter merchant API key</string>
+    <string name="settings_section_preferences">Shipping Rules</string>
+    <string name="settings_free_shipping_threshold">Free Shipping Threshold ($)</string>
+    <string name="settings_free_shipping_hint">e.g. 50.00 (leave 0 to disable)</string>
+    <string name="settings_auto_insurance">Auto-enable Insurance on Orders &gt; $100</string>
+    <string name="btn_save_settings">Save Preferences</string>
+    <string name="settings_saved_success">Settings saved successfully.</string>
+</resources>

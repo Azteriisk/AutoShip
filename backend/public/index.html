@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoShip - Clover POS Shipping &amp; Fulfillment</title>
+  <link rel="icon" type="image/png" href="/logo-thumb.png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Clover App Top Bar -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <div class="nav-logo-wrap">
+        <img src="/logo-thumb.png" alt="AutoShip Logo" width="40" height="40" class="nav-logo-img">
+      </div>
+      <div>
+        <h1 class="nav-title">AutoShip</h1>
+        <span class="nav-subtitle">Clover POS Shipping Automation</span>
+      </div>
+    </div>
+    
+    <div class="nav-actions">
+      <div id="modeBadge" class="mode-badge live">
+        <span class="indicator-dot"></span>
+        <span id="modeText">AutoShip Live Network</span>
+      </div>
+      <div class="merchant-badge">
+        <span class="merchant-label">Merchant:</span>
+        <strong id="navMerchantName">AutoShip Merchant Store</strong>
+      </div>
+      <button id="btnHeaderDemo" class="btn btn-sm btn-nav-cta">
+        ⚡ Demo Walkthrough
+      </button>
+    </div>
+  </header>
+
+  <!-- AutoShip Brand Hero Section (Themed directly after Logo) -->
+  <section class="hero-section">
+    <!-- Atmospheric Ambient Glows & Speed Streaks -->
+    <div class="hero-glow-cyan" aria-hidden="true"></div>
+    <div class="hero-glow-mint" aria-hidden="true"></div>
+    <div class="hero-speed-streaks" aria-hidden="true">
+      <span class="streak streak-1"></span>
+      <span class="streak streak-2"></span>
+      <span class="streak streak-3"></span>
+      <span class="streak streak-4"></span>
+      <span class="streak streak-5"></span>
+    </div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-pill-badge">
+          <span class="pill-dot"></span>
+          <span class="pill-text">CLOVER APP MARKET • MULTI-CARRIER FULFILLMENT</span>
+        </div>
+
+        <h2 class="hero-title">
+          Automated Shipping at the <span class="hero-title-cyan">Speed of Checkout</span>
+        </h2>
+
+        <p class="hero-subtitle">
+          Turn any Clover POS register into an automated fulfillment powerhub. Real-time rate shopping across USPS, UPS, &amp; FedEx, automated 3D box packing, free-shipping threshold rules, and instant 4"×6" thermal label printing.
+        </p>
+
+        <div class="hero-actions">
+          <button id="btnHeroCalculate" class="btn-hero-primary">
+            <span>📦 Calculate Parcel Rates</span>
+            <span class="btn-arrow">→</span>
+          </button>
+          <button id="btnQuickSimulate" class="btn-hero-mint">
+            <span>⚡ Demo Order Walkthrough</span>
+          </button>
+          <a href="https://www.clover.com/appmarket/apps/5H39JNZX2YWGC" target="_blank" rel="noopener noreferrer" class="btn-hero-ghost">
+            <span>Clover App Market</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div class="hero-feature-tags">
+          <div class="feature-tag">
+            <span class="tag-icon">⚡</span>
+            <span>Commercial Base Postage</span>
+          </div>
+          <div class="feature-tag">
+            <span class="tag-icon">📦</span>
+            <span>3D Volumetric Packing</span>
+          </div>
+          <div class="feature-tag">
+            <span class="tag-icon">🏷️</span>
+            <span>4"×6" Thermal Zebra/Rollo</span>
+          </div>
+          <div class="feature-tag">
+            <span class="tag-icon">🌿</span>
+            <span>Clover Discounts Engine</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stage">
+        <div class="stage-backdrop-ring"></div>
+
+        <!-- 3D Parcel Visual with Current Logo -->
+        <div class="hero-parcel-wrapper">
+          <img src="/logo-transparent.png" alt="AutoShip Current Logo" class="hero-logo-parcel">
+        </div>
+
+        <!-- Floating Telemetry Chips -->
+        <div class="floating-chip chip-quote">
+          <div class="chip-indicator cyan"></div>
+          <div class="chip-data">
+            <span class="chip-title">USPS Priority Mail</span>
+            <span class="chip-val">$8.45 • 2-Day Delivery</span>
+          </div>
+        </div>
+
+        <div class="floating-chip chip-packing">
+          <div class="chip-indicator mint"></div>
+          <div class="chip-data">
+            <span class="chip-title">3D Smart Packing</span>
+            <span class="chip-val">Medium Box • 94% Efficiency</span>
+          </div>
+        </div>
+
+        <div class="floating-chip chip-status">
+          <div class="chip-indicator green"></div>
+          <div class="chip-data">
+            <span class="chip-title">AutoShip Live Network</span>
+            <span class="chip-val">Clover POS Connected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="main-layout">
+    <!-- Navigation Tabs -->
+    <nav class="tabs-bar" role="tablist" aria-label="AutoShip Modules">
+      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="overview">
+        📊 Overview &amp; Orders
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="calculator">
+        🏷️ Create Shipping Label
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="presets">
+        📦 Packaging Presets
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="discounts">
+        🏷️ Discounts &amp; Promo Codes
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="settings">
+        ⚙️ Carrier Settings
+      </button>
+    </nav>
+
+    <!-- TAB 1: OVERVIEW & RECENT ORDERS -->
+    <section id="tab-overview" class="tab-content active">
+      <!-- KPI Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon clover-green">📦</div>
+          <div class="stat-content">
+            <span class="stat-label">Total Shipments</span>
+            <span id="statTotalShipments" class="stat-value">0</span>
+            <span class="stat-sub">Across all carriers</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon blue">💰</div>
+          <div class="stat-content">
+            <span class="stat-label">Total Postage Spend</span>
+            <span id="statTotalSpend" class="stat-value">$0.00</span>
+            <span class="stat-sub">Commercial Base Rates</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon purple">⏱️</div>
+          <div class="stat-content">
+            <span class="stat-label">Avg Delivery Speed</span>
+            <span id="statAvgDelivery" class="stat-value">2.4 Days</span>
+            <span class="stat-sub">Optimized bin packing</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">🚚</div>
+          <div class="stat-content">
+            <span class="stat-label">Active Carriers</span>
+            <span id="statActiveCarriers" class="stat-value">USPS, UPS, FedEx</span>
+            <span class="stat-sub">Commercial Base Rates</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscription Plan & Metered Usage Card -->
+      <div class="card plan-card">
+        <div class="card-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <h2 class="card-title">Clover App Market Subscription</h2>
+              <span id="planBadge" class="badge badge-success">Growth Plan ($6.99/mo)</span>
+              <span class="badge badge-success">ACTIVE</span>
+            </div>
+            <p class="card-description" id="planDescriptionText">
+              Synced directly with your Clover POS merchant account (Merchant ID: <code id="merchantIdDisplay" style="color: var(--brand-cyan); font-family: var(--font-mono);">MERCHANT_CLOVER_12345</code>). Monthly included shipment allotment tracked below.
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <a href="https://www.clover.com/appmarket/apps/5H39JNZX2YWGC" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="text-decoration: none;">
+              <span>Manage in Clover</span>
+              <span>↗</span>
+            </a>
+            <button id="btnSyncSubscription" class="btn btn-secondary btn-sm" title="Sync active subscription plan from Clover API">
+              🔄 Sync Subscription
+            </button>
+          </div>
+        </div>
+
+        <div style="padding: 18px 22px; background: rgba(7, 14, 32, 0.7); border-radius: var(--radius-md); margin-top: 10px; border: 1px solid var(--border-color);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 14px; font-weight: 600; color: #ffffff;" id="quotaUsageText">0 of 100 included shipments used this billing cycle</span>
+            <span id="quotaOverageBadge" class="badge badge-success">Within Monthly Allowance ($0.00 metered)</span>
+          </div>
+          <div style="width: 100%; height: 10px; background: rgba(30, 41, 59, 0.8); border-radius: 5px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06);">
+            <div id="quotaProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #0284c7, #38bdf8, #34d399); border-radius: 5px; transition: width 0.3s ease;"></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 14px;">
+            <div style="font-size: 13px; display: flex; align-items: center; gap: 8px;" id="featCommercial">
+              <span>✅</span> <span style="color: var(--text-highlight);">Discounted Commercial Postage</span>
+            </div>
+            <div style="font-size: 13px; display: flex; align-items: center; gap: 8px;" id="featThreshold">
+              <span id="featIconThreshold">✅</span> <span style="color: var(--text-highlight);">Free-Shipping Threshold Rules</span>
+            </div>
+            <div style="font-size: 13px; display: flex; align-items: center; gap: 8px;" id="featMarkup">
+              <span id="featIconMarkup">✅</span> <span style="color: var(--text-highlight);">Custom Handling Markup</span>
+            </div>
+            <div style="font-size: 13px; display: flex; align-items: center; gap: 8px;" id="featByoa">
+              <span id="featIconByoa">🔒</span> <span style="color: var(--text-muted);">Custom Carrier Accounts (BYOA)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Shipments Table Container -->
+      <div class="card recent-orders-card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Recent AutoShip Shipments</h2>
+            <p class="card-description">Fulfilled orders with generated carrier tracking and printable 4"×6" labels</p>
+          </div>
+          <div class="card-actions">
+            <button id="btnOpenCreateLabel" class="btn btn-primary btn-sm">
+              + Create Shipping Label
+            </button>
+            <input type="text" id="shipmentSearch" placeholder="Search order, customer, tracking..." class="input-search">
+            <button id="btnRefreshShipments" class="btn btn-secondary btn-sm">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <div tabindex="0" role="region" aria-label="Recent Shipments Table" class="table-wrapper">
+          <table class="data-table" id="shipmentsTable">
+            <colgroup>
+              <col style="width: 17%;">
+              <col style="width: 7%;">
+              <col style="width: 13%;">
+              <col style="width: 15%;">
+              <col style="width: 15%;">
+              <col style="width: 11%;">
+              <col style="width: 8%;">
+              <col style="width: 5%;">
+              <col style="width: 9%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Carrier &amp; Service</th>
+                <th scope="col">Tracking #</th>
+                <th scope="col">Packaging</th>
+                <th scope="col">Status</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="shipmentsTableBody">
+              <tr>
+                <td colspan="9" class="empty-state">Loading shipments...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: RATE SANDBOX & CREATE LABEL -->
+    <section id="tab-calculator" class="tab-content">
+      <div class="sandbox-container">
+        <!-- Input Form -->
+        <div class="card sandbox-form-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 0.5rem;">
+            <div>
+              <h2 class="card-title">Create Standalone Shipping Label</h2>
+              <p class="card-description">Generate carrier-certified thermal labels for phone orders, wholesale, customer returns, or in-store shipments without requiring an open Register cart.</p>
+            </div>
+            <span class="badge badge-success" style="padding: 4px 10px; font-weight: 700;">STANDALONE FULFILLMENT</span>
+          </div>
+
+          <form id="rateCalculatorForm" class="form-grid">
+            <div class="form-section-title">1. Recipient Destination Address</div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="destName">Recipient Full Name *</label>
+                <input type="text" id="destName" placeholder="e.g. Sarah Jenkins" required>
+              </div>
+              <div class="form-group col-6">
+                <label for="destCompany">Company / Attention (Optional)</label>
+                <input type="text" id="destCompany" placeholder="e.g. Apex Retail LLC">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-8">
+                <label for="destStreet">Street Address *</label>
+                <input type="text" id="destStreet" placeholder="e.g. 417 Montgomery St" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="destStreet2">Apt / Suite</label>
+                <input type="text" id="destStreet2" placeholder="e.g. Fl 5">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-4">
+                <label for="destCity">City *</label>
+                <input type="text" id="destCity" placeholder="e.g. San Francisco" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="destState">State (2-Letter) *</label>
+                <input type="text" id="destState" placeholder="CA" maxlength="2" style="text-transform: uppercase;" required>
+              </div>
+              <div class="form-group col-4">
+                <label for="destZip">Postal ZIP Code *</label>
+                <input type="text" id="destZip" placeholder="e.g. 94104" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="destPhone">Recipient Phone (For Tracking SMS)</label>
+                <input type="tel" id="destPhone" placeholder="e.g. 415-555-0199">
+              </div>
+              <div class="form-group col-6">
+                <label for="destCountry">Country</label>
+                <input type="text" id="destCountry" value="United States (US)" readonly style="background: rgba(15, 23, 42, 0.6); color: var(--text-muted);">
+              </div>
+            </div>
+
+            <div class="form-section-title">2. Package Type, Dimensions &amp; Weight</div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="manualPackagePreset">Standard Packaging Preset</label>
+                <select id="manualPackagePreset">
+                  <option value="preset_medium_box" selected>Medium Box (10" × 7" × 5") - Standard</option>
+                  <option value="preset_padded_envelope">Padded Bubble Mailer (12.5" × 9.5" × 1")</option>
+                  <option value="preset_small_box">Small Box (6" × 4" × 3")</option>
+                  <option value="preset_large_box">Large Box (14" × 10" × 8")</option>
+                  <option value="preset_extra_large_box">Extra Large Box (20" × 16" × 12")</option>
+                  <option value="custom">Custom Dimensions (Enter below)...</option>
+                </select>
+              </div>
+              <div class="form-group col-6">
+                <label for="calcWeightLbs">Total Package Weight (lbs) *</label>
+                <input type="number" id="calcWeightLbs" step="0.1" min="0.1" value="2.0" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-4">
+                <label for="manualDimLength">Length (in)</label>
+                <input type="number" id="manualDimLength" step="0.5" min="1" value="10">
+              </div>
+              <div class="form-group col-4">
+                <label for="manualDimWidth">Width (in)</label>
+                <input type="number" id="manualDimWidth" step="0.5" min="1" value="7">
+              </div>
+              <div class="form-group col-4">
+                <label for="manualDimHeight">Height (in)</label>
+                <input type="number" id="manualDimHeight" step="0.5" min="0.5" value="5">
+              </div>
+            </div>
+
+            <div class="form-section-title">3. Shipment Reference &amp; Protection</div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="manualReferenceId">Order / Reference # (Printed on Label)</label>
+                <input type="text" id="manualReferenceId" placeholder="e.g. PHONE-1042 or WHOLESALE-88">
+              </div>
+              <div class="form-group col-6">
+                <label for="calcSubtotal">Declared Value ($) (Optional)</label>
+                <input type="number" id="calcSubtotal" step="1" min="0" placeholder="e.g. 50.00">
+              </div>
+            </div>
+
+            <div class="form-row checkboxes-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="chkInsurance">
+                <span>Insure Package (Declared Value)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="chkGuarantee">
+                <span>On-Time Delivery Guarantee</span>
+              </label>
+            </div>
+
+            <div class="form-actions" style="margin-top: 1rem;">
+              <button type="submit" id="btnCalculateRates" class="btn btn-primary btn-block" style="padding: 0.85rem; font-size: 1rem; font-weight: 700;">
+                ⚡ Calculate Live Multi-Carrier Rates
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Live Results View -->
+        <div class="sandbox-results-card">
+          <!-- Bin Packing Result (Themed like the 3D Parcel in Logo) -->
+          <div class="card box-result-card" id="boxResultCard">
+            <h3 class="card-subtitle">📦 Recommended Packaging</h3>
+            <div class="box-preview-wrap">
+              <div class="box-3d-visual">
+                <div class="box-icon">📦</div>
+                <div class="box-meta">
+                  <span id="resBoxName" class="box-title">Medium Box</span>
+                  <span id="resBoxDims" class="box-dims">10" × 7" × 5"</span>
+                </div>
+              </div>
+              <div class="box-metrics">
+                <div class="metric-item">
+                  <span class="m-label">Billable Wt</span>
+                  <span id="resBillableWeight" class="m-val">2.0 lbs</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-label">Origin Hub</span>
+                  <span id="resOriginCity" class="m-val">Austin, TX</span>
+                </div>
+                <div class="metric-item">
+                  <span class="m-label">Carrier Base</span>
+                  <span class="m-val" style="color: var(--brand-mint);">Commercial</span>
+                </div>
+              </div>
+            </div>
+            <div id="discountBanner" class="discount-banner hidden">
+              🎉 <strong>Free Shipping / Promo Applied:</strong> <span id="discountBannerText"></span>
+            </div>
+          </div>
+
+          <!-- Carrier Rates Cards -->
+          <div class="card rates-list-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <h3 class="card-subtitle" style="margin-bottom: 0;">🚚 Available Carrier Rates</h3>
+              <span id="ratesLiveIndicator" class="badge badge-info">Live Commercial Rates</span>
+            </div>
+            <div id="carrierRatesContainer" class="rates-container">
+              <div class="empty-state" style="padding: 2.5rem 1rem; text-align: center;">
+                Enter destination address and click <strong>"Calculate Live Rates"</strong> to compare USPS, UPS, and FedEx options.
+              </div>
+            </div>
+
+            <!-- Standalone Purchase Action Card -->
+            <div id="manualPurchaseActionCard" class="purchase-action-card hidden" style="margin-top: 1.25rem; border: 1px solid var(--border-mint); border-radius: var(--radius-md); padding: 18px; background: linear-gradient(135deg, rgba(2, 132, 199, 0.22) 0%, rgba(52, 211, 153, 0.16) 100%); box-shadow: var(--glow-mint);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                  <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--brand-mint); letter-spacing: 0.5px;">Selected Postage Service</div>
+                  <div id="selectedServiceName" style="font-size: 1.2rem; font-weight: 800; color: #ffffff;">USPS Ground Advantage</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--brand-mint); letter-spacing: 0.5px;">Total Postage</div>
+                  <div id="selectedServicePrice" style="font-size: 1.45rem; font-weight: 800; color: #ffffff; font-family: var(--font-mono);">$6.25</div>
+                </div>
+              </div>
+              <div style="font-size: 12px; color: var(--brand-cyan-light); margin-bottom: 14px; background: rgba(7, 14, 32, 0.7); padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; gap: 8px; border: 1px solid var(--border-color);">
+                <span>💳</span>
+                <span id="purchasePlanBillingNote">Covered by your monthly Growth Plan allowance ($0.00 metered fee).</span>
+              </div>
+              <button type="button" id="btnBuyManualLabel" class="btn btn-hero-mint btn-block" style="font-size: 1.05rem; padding: 0.85rem; font-weight: 800;">
+                🏷️ Buy &amp; Print Shipping Label (4"×6")
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: PACKAGING PRESETS -->
+    <section id="tab-presets" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Packaging Presets</h2>
+            <p class="card-description">Configure standard box dimensions, tare weights, and maximum capacities for 3D bin-packing.</p>
+          </div>
+          <button id="btnNewPreset" class="btn btn-primary btn-sm">+ Add Custom Box</button>
+        </div>
+
+        <div class="presets-grid" id="presetsGrid">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: DISCOUNTS & PROMO CODES -->
+    <section id="tab-discounts" class="tab-content">
+      <div class="grid-2col">
+        <!-- Free Shipping Threshold Card -->
+        <div class="card">
+          <h2 class="card-title">Free Shipping Threshold</h2>
+          <p class="card-description">Automatically waive shipping charges when order cart subtotal exceeds a target dollar amount.</p>
+
+          <form id="thresholdForm" style="margin-top: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="switch-label">
+                <input type="checkbox" id="enableFreeShippingThreshold" checked style="accent-color: var(--brand-mint);">
+                <span class="switch-text">Enable Free Shipping Threshold</span>
+              </label>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label for="freeShippingThreshold">Order Subtotal Threshold ($)</label>
+              <div class="input-with-prefix">
+                <span class="input-prefix">$</span>
+                <input type="number" id="freeShippingThreshold" value="100.00" min="0" step="5">
+              </div>
+              <small class="help-text">Orders equal or greater than this subtotal qualify for free shipping.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Threshold Rule</button>
+          </form>
+        </div>
+
+        <!-- Promo Codes Card -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Promo Codes</h2>
+              <p class="card-description">Custom coupons applicable at checkout.</p>
+            </div>
+            <button id="btnNewPromo" class="btn btn-secondary btn-sm">+ New Code</button>
+          </div>
+
+          <div class="promos-list" id="promosList">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: CARRIER SETTINGS -->
+    <section id="tab-settings" class="tab-content">
+      <div class="card settings-card">
+        <h2 class="card-title">Carrier Integration &amp; Merchant Configuration</h2>
+        <p class="card-description">Manage EasyPost API credentials, enabled carriers, origin warehouse, and pricing policies.</p>
+
+        <form id="settingsForm" class="form-grid" style="margin-top: 1.25rem;">
+          <div class="form-section-title">Carrier Account Integration</div>
+          <div class="form-row">
+            <div class="form-group col-8">
+              <label for="easyPostApiKey">EasyPost API Key (Enterprise BYOA Custom Rates)</label>
+              <input type="password" id="easyPostApiKey" placeholder="Enter EasyPost key or leave empty to use included AutoShip commercial rates">
+            </div>
+            <div class="form-group col-4">
+              <label class="switch-label" style="margin-top: 1.85rem;">
+                <input type="checkbox" id="useMockCarrier" style="accent-color: var(--brand-cyan);">
+                <span class="switch-text">AutoShip Negotiated Commercial Rates</span>
+              </label>
+              <small class="help-text">Includes deeply discounted Commercial Plus rates for USPS, UPS, and FedEx.</small>
+            </div>
+          </div>
+
+          <div class="form-section-title">Enabled Carriers</div>
+          <div class="form-row carrier-toggles">
+            <label class="carrier-toggle-card">
+              <input type="checkbox" id="carrierUsps" checked>
+              <span class="carrier-name">USPS</span>
+              <span class="carrier-sub">Ground Advantage, Priority, Express</span>
+            </label>
+
+            <label class="carrier-toggle-card">
+              <input type="checkbox" id="carrierUps" checked>
+              <span class="carrier-name">UPS</span>
+              <span class="carrier-sub">Ground, 2nd Day Air, Next Day Air</span>
+            </label>
+
+            <label class="carrier-toggle-card">
+              <input type="checkbox" id="carrierFedex" checked>
+              <span class="carrier-name">FedEx</span>
+              <span class="carrier-sub">Home Delivery, 2Day, Overnight</span>
+            </label>
+          </div>
+
+          <div class="form-section-title">Origin Fulfillment Address (Store / Warehouse)</div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="originName">Sender / Store Name</label>
+              <input type="text" id="originName" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="originPhone">Phone Number</label>
+              <input type="text" id="originPhone">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-8">
+              <label for="originStreet">Street Address</label>
+              <input type="text" id="originStreet" required>
+            </div>
+            <div class="form-group col-4">
+              <label for="originZip">Postal ZIP</label>
+              <input type="text" id="originZip" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="originCity">City</label>
+              <input type="text" id="originCity" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="originState">State (2 Letters)</label>
+              <input type="text" id="originState" required maxlength="2">
+            </div>
+          </div>
+
+          <div class="form-section-title">Insurance &amp; Fees</div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="insuranceRate">Insurance Fee per $100 Declared Value ($)</label>
+              <input type="number" id="insuranceRate" step="0.05" min="0">
+            </div>
+            <div class="form-group col-6">
+              <label for="guaranteeFee">Delivery Guarantee Fee ($)</label>
+              <input type="number" id="guaranteeFee" step="0.5" min="0">
+            </div>
+          </div>
+
+          <div class="form-actions" style="margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary">Save All Settings</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- LABEL MODAL -->
+  <div id="labelModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Shipping Label &amp; Barcode</h3>
+        <button class="modal-close" id="btnCloseLabelModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="label-preview-container" id="labelPreviewContainer">
+          <!-- SVG rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnPrintModalLabel" class="btn btn-primary">🖨️ Print Label (4"x6")</button>
+        <button id="btnCloseModalBtn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACKING MODAL -->
+  <div id="trackingModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Shipment Tracking Timeline</h3>
+        <button class="modal-close" id="btnCloseTrackingModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="trackingInfoSummary" class="tracking-summary" style="margin-bottom: 1.25rem; width: 100%;"></div>
+        <div class="timeline" id="trackingTimelineContainer"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnAdvanceTracking" class="btn btn-secondary">Simulate Next Transit Step</button>
+        <button id="btnCloseTrackingBtn" class="btn btn-primary">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- High-Tech Branded Footer (Themed like the Logo) -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-brand-col">
+        <div class="footer-logo">
+          <img src="/logo-thumb.png" alt="AutoShip Logo" width="36" height="36" style="border-radius: 8px;">
+          <span class="footer-brand-title">AutoShip</span>
+        </div>
+        <p class="footer-tagline">
+          Automated multi-carrier rate calculation, intelligent 3D box packing, and 1-tap thermal label fulfillment for Clover POS retail and in-store merchants.
+        </p>
+        <div class="footer-carrier-badges">
+          <span class="carrier-pill usps">USPS Commercial Plus</span>
+          <span class="carrier-pill ups">UPS Digital Access</span>
+          <span class="carrier-pill fedex">FedEx Platform</span>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'overview\']')?.click(); return false;">📊 Overview &amp; Orders</a></li>
+          <li><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'calculator\']')?.click(); return false;">🏷️ Create Shipping Label</a></li>
+          <li><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'presets\']')?.click(); return false;">📦 Packaging Presets</a></li>
+          <li><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'discounts\']')?.click(); return false;">🏷️ Discounts &amp; Promo Codes</a></li>
+          <li><a href="#" onclick="document.querySelector('.tab-btn[data-tab=\'settings\']')?.click(); return false;">⚙️ Carrier Settings</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4 class="footer-col-title">Legal &amp; Support</h4>
+        <ul class="footer-links">
+          <li><a href="/support.html">Merchant Support</a></li>
+          <li><a href="/eula.html">End User License (EULA)</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms of Service</a></li>
+          <li><a href="https://www.clover.com/appmarket/apps/5H39JNZX2YWGC" target="_blank" rel="noopener noreferrer">Clover App Market ↗</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <span>&copy; 2026 AutoShip. All rights reserved. Clover&reg; is a registered trademark of Clover Network, LLC.</span>
+        <span class="footer-version">AutoShip v1.0.1 • Live Production</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

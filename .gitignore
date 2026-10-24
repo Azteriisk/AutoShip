@@ -1,0 +1,85 @@
+# ==============================================================================
+# AutoShip - Git Ignore Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Sensitive Files, Secrets & Environment Variables (NEVER COMMIT)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+*.pem
+*.key
+*.pk8
+*.der
+credentials.json
+client_secret*.json
+
+# Android Release Signing Keystores & Properties
+*.jks
+*.keystore
+*.p12
+signing.properties
+local.properties
+**/local.properties
+
+# ------------------------------------------------------------------------------
+# 2. Application & Runtime Data Stores (Merchant & Order Data)
+# ------------------------------------------------------------------------------
+data/
+backend/data/*.json
+!backend/data/.gitkeep
+*.sqlite
+*.sqlite3
+*.db
+
+# ------------------------------------------------------------------------------
+# 3. Node.js & Web Backend
+# ------------------------------------------------------------------------------
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.vercel/
+**/vercel/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ------------------------------------------------------------------------------
+# 4. Android Build Artifacts & Gradle
+# ------------------------------------------------------------------------------
+.gradle/
+**/.gradle/
+build/
+**/build/
+android/app/build/
+android/.gradle/
+android/build/
+*.apk
+*.aab
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ------------------------------------------------------------------------------
+# 5. IDE & Editor Metadata
+# ------------------------------------------------------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+
+# ------------------------------------------------------------------------------
+# 6. Operating System Files
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
