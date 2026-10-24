@@ -125,7 +125,7 @@ export class FulfillmentService {
 
     // 10. Record Metered Usage to Clover Billing based on merchant plan tier
     try {
-      await cloverBillingService.processShipmentBilling(settings.merchantId);
+      await cloverBillingService.processShipmentBilling(settings.merchantId || 'MERCHANT_CLOVER_12345');
     } catch (billingErr) {
       console.error('[AutoShip Billing] Error recording metered billing event:', billingErr);
     }
@@ -179,7 +179,7 @@ export class FulfillmentService {
 
     // Record Metered Usage to Clover Billing based on merchant plan tier
     try {
-      await cloverBillingService.processShipmentBilling(settings.merchantId);
+      await cloverBillingService.processShipmentBilling(settings.merchantId || 'MERCHANT_CLOVER_12345');
     } catch (billingErr) {
       console.error('[AutoShip Billing] Error recording metered billing event for manual shipment:', billingErr);
     }

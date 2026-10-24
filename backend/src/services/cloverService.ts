@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { CloverOrder, Address } from '../types/index.js';
 import { db } from '../db/database.js';
 
@@ -200,14 +201,84 @@ export class CloverService {
   }
 
   /**
-   * Verifies Clover Webhook Signature
+   * Cryptographically verifies Clover Webhook Signature using HMAC-SHA256,
+   * supporting hex and base64 digests with timing-safe comparison, while maintaining
+   * fallback support for sandbox verification codes and static secret matching.
    */
-  public verifyWebhookSignature(authHeader?: string, verificationCode?: string): boolean {
-    const configuredCode = process.env.CLOVER_WEBHOOK_SECRET || 'clover_autoship_secret';
+  public verifyWebhookSignature(
+    authHeader?: string,
+    rawBody?: string | Buffer | object,
+    verificationCode?: string
+  ): boolean {
     if (!authHeader) {
       return false;
     }
-    return authHeader === configuredCode || authHeader === verificationCode;
+
+    const configuredSecret = process.env.CLOVER_WEBHOOK_SECRET || 'clover_autoship_secret';
+
+    const safeCompare = (a: string, b: string): boolean => {
+      try {
+        const bufA = Buffer.from(a, 'utf-8');
+        const bufB = Buffer.from(b, 'utf-8');
+        if (bufA.length !== bufB.length) return false;
+        return crypto.timingSafeEqual(bufA, bufB);
+      } catch {
+        return false;
+      }
+    };
+
+    // 1. Direct secret match or sandbox verification code match
+    if (safeCompare(authHeader, configuredSecret)) {
+      return true;
+    }
+
+    if (verificationCode && safeCompare(authHeader, verificationCode)) {
+      return true;
+    }
+
+    // 2. Cryptographic HMAC-SHA256 verification against request raw body/payload
+    if (rawBody !== undefined && rawBody !== null) {
+      let bodyString: string;
+      if (Buffer.isBuffer(rawBody)) {
+        bodyString = rawBody.toString('utf-8');
+      } else if (typeof rawBody === 'string') {
+        bodyString = rawBody;
+      } else {
+        bodyString = JSON.stringify(rawBody);
+      }
+
+      // Clover / standard webhooks may format signature with prefix (e.g. sha256=... or v1=...)
+      const cleanedSig = authHeader.replace(/^(sha256=|v1=)/i, '').trim();
+
+      // Check against configured secret (hex and base64 digests)
+      const hmacHex = crypto.createHmac('sha256', configuredSecret).update(bodyString).digest('hex');
+      const hmacBase64 = crypto.createHmac('sha256', configuredSecret).update(bodyString).digest('base64');
+
+      if (
+        safeCompare(cleanedSig, hmacHex) ||
+        safeCompare(cleanedSig, hmacBase64) ||
+        safeCompare(authHeader, hmacHex) ||
+        safeCompare(authHeader, hmacBase64)
+      ) {
+        return true;
+      }
+
+      // If a dynamic verification code was provided, also test HMAC with it
+      if (verificationCode) {
+        const codeHmacHex = crypto.createHmac('sha256', verificationCode).update(bodyString).digest('hex');
+        const codeHmacBase64 = crypto.createHmac('sha256', verificationCode).update(bodyString).digest('base64');
+        if (
+          safeCompare(cleanedSig, codeHmacHex) ||
+          safeCompare(cleanedSig, codeHmacBase64) ||
+          safeCompare(authHeader, codeHmacHex) ||
+          safeCompare(authHeader, codeHmacBase64)
+        ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   /**

@@ -27,6 +27,26 @@
     <string name="free_shipping_banner_title">Free Shipping Applied!</string>
     <string name="free_shipping_banner_desc">Order qualifies for free shipping promotion (%s waived via discount).</string>
 
+    <!-- Offline Fallback Mode -->
+    <string name="offline_banner_title">⚡ Offline Mode / Local Estimated Rates active</string>
+    <string name="offline_banner_desc">Checkout is not blocked. Using local tiered rates to keep register moving.</string>
+
+    <!-- Package & Dimensions Section -->
+    <string name="section_package_title">Parcel &amp; Dimensions</string>
+    <string name="btn_adjust_dimensions">Adjust / Override</string>
+    <string name="badge_heavy_item">⚠️ HEAVY ITEM</string>
+    <string name="dialog_dimensions_title">Parcel Dimensions &amp; Weight</string>
+    <string name="preset_standard">Standard Box (1 lb)</string>
+    <string name="preset_medium">Medium Box (5 lbs)</string>
+    <string name="preset_heavy">Heavy Freight (25 lbs)</string>
+    <string name="hint_weight_lbs">Weight (lbs) *</string>
+    <string name="hint_length_in">Length (in) *</string>
+    <string name="hint_width_in">Width (in) *</string>
+    <string name="hint_height_in">Height (in) *</string>
+    <string name="label_switch_heavy">Uncataloged Heavy / Bulky Item</string>
+    <string name="desc_switch_heavy">Applies heavy freight handling rates if uncataloged</string>
+    <string name="btn_save_dimensions">Apply Overrides</string>
+
     <!-- Insurance Section -->
     <string name="label_shipping_insurance">Add Shipping Protection / Insurance</string>
     <string name="insurance_cost_format">+%s (Full replacement coverage)</string>

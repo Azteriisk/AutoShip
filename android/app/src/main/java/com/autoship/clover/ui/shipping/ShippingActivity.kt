@@ -85,6 +85,11 @@ class ShippingActivity : AppCompatActivity() {
             ratesAdapter.updateInsurance(isChecked)
         }
 
+        // Adjust Dimensions & Weight / Uncataloged Heavy Item Override
+        binding.btnAdjustDimensions.setOnClickListener {
+            showDimensionsDialog()
+        }
+
         // Apply Shipping Button (Clover LineItem creation)
         binding.btnApplyShipping.setOnClickListener {
             viewModel.applyShippingToOrder()
@@ -128,6 +133,45 @@ class ShippingActivity : AppCompatActivity() {
                 items.size,
                 subtotalFormatted
             )
+
+            // Update parcel & dimensions summary card
+            if (items.isEmpty()) {
+                binding.tvParcelSummary.text = "1 pkg • 1.0 lb (10 x 7 x 5 in)"
+                binding.tvHeavyBadge.visibility = View.GONE
+            } else {
+                val totalWeightOz = items.sumOf { it.totalWeightOz }
+                val totalLbs = totalWeightOz / 16.0
+                val weightStr = if (totalLbs == totalLbs.toLong().toDouble()) {
+                    "${totalLbs.toLong()} lb"
+                } else {
+                    String.format(java.util.Locale.US, "%.1f lbs", totalLbs)
+                }
+                val primaryDim = items.first().formattedDimensions()
+                binding.tvParcelSummary.text = getString(
+                    R.string.order_summary_format,
+                    items.size,
+                    "$weightStr ($primaryDim)"
+                )
+                val hasHeavy = items.any { it.isHeavy }
+                binding.tvHeavyBadge.visibility = if (hasHeavy) View.VISIBLE else View.GONE
+            }
+        }
+
+        // Offline Mode Fallback Banner Observer
+        viewModel.isOfflineRatesActive.observe(this) { isOffline ->
+            binding.cardOfflineBanner.visibility = if (isOffline) View.VISIBLE else View.GONE
+            if (isOffline) {
+                val notice = viewModel.offlineNoticeMessage.value
+                if (!notice.isNullOrBlank()) {
+                    binding.tvOfflineBannerTitle.text = notice
+                }
+            }
+        }
+
+        viewModel.offlineNoticeMessage.observe(this) { notice ->
+            if (viewModel.isOfflineRatesActive.value == true && !notice.isNullOrBlank()) {
+                binding.tvOfflineBannerTitle.text = notice
+            }
         }
 
         // Destination Address Observer
@@ -297,5 +341,21 @@ class ShippingActivity : AppCompatActivity() {
             viewModel.setDestinationAddress(newAddress)
         }
         dialog.show(supportFragmentManager, "AddressDialog")
+    }
+
+    private fun showDimensionsDialog() {
+        val items = viewModel.cartItems.value
+        val primary = items?.firstOrNull()
+        val dialog = DimensionOverrideDialog.newInstance(
+            weightOz = primary?.weightOz ?: 16.0,
+            lengthIn = primary?.lengthIn ?: 10.0,
+            widthIn = primary?.widthIn ?: 7.0,
+            heightIn = primary?.heightIn ?: 5.0,
+            isHeavy = primary?.isHeavyOverride ?: false
+        )
+        dialog.setOnDimensionsAppliedListener { weightOz, lengthIn, widthIn, heightIn, isHeavy ->
+            viewModel.updatePackageOverrides(weightOz, lengthIn, widthIn, heightIn, isHeavy)
+        }
+        dialog.show(supportFragmentManager, "DimensionOverrideDialog")
     }
 }

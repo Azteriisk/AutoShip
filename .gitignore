@@ -28,9 +28,10 @@ local.properties
 # ------------------------------------------------------------------------------
 # 2. Application & Runtime Data Stores (Merchant & Order Data)
 # ------------------------------------------------------------------------------
-data/
-backend/data/*.json
+/data/
+backend/data/*
 !backend/data/.gitkeep
+*.tmp
 *.sqlite
 *.sqlite3
 *.db

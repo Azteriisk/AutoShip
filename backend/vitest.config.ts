@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
+    fileParallelism: false,
     include: ["tests/**/*.test.ts"],
     env: {
       EASYPOST_API_KEY: process.env.EASYPOST_API_KEY || "",

@@ -111,7 +111,7 @@ export class CloverBillingService {
   /**
    * Processes billing for a newly fulfilled shipment based on the merchant's active tier
    */
-  public async processShipmentBilling(merchantId: string): Promise<{
+  public async processShipmentBilling(merchantId?: string): Promise<{
     tier: PlanTier;
     currentCount: number;
     includedShipments: number;
@@ -153,7 +153,7 @@ export class CloverBillingService {
     let billed = false;
     if (meteredId) {
       const res = await this.reportMeteredEvent({
-        merchantId: settings.merchantId || merchantId,
+        merchantId: settings.merchantId || merchantId || 'MERCHANT_CLOVER_12345',
         meteredId,
         count: 1,
       });

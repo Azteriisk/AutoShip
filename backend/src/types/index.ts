@@ -24,6 +24,7 @@ export interface Item {
   lengthIn: number; // in inches
   widthIn: number; // in inches
   heightIn: number; // in inches
+  merchantId?: string;
 }
 
 export interface PackagePreset {
@@ -36,6 +37,7 @@ export interface PackagePreset {
   maxWeightOz: number;
   tareWeightOz: number;
   isDefault?: boolean;
+  merchantId?: string;
 }
 
 export interface PackedPackage {
@@ -153,6 +155,7 @@ export interface Shipment {
   orderId: string;
   cloverOrderId?: string;
   cloverPaymentId?: string;
+  merchantId?: string;
   carrier: CarrierCode;
   service: string;
   serviceCode: string;
@@ -183,6 +186,7 @@ export interface PromoCode {
   active: boolean;
   expiresAt?: string;
   usageCount: number;
+  merchantId?: string;
 }
 
 export type PlanTier = 'pay_as_you_go' | 'growth' | 'enterprise';
@@ -204,7 +208,7 @@ export interface PlanConfig {
 }
 
 export interface MerchantSettings {
-  merchantId: string;
+  merchantId?: string;
   merchantName: string;
   planTier: PlanTier;
   billingCycleMonth?: string;
@@ -225,6 +229,9 @@ export interface MerchantSettings {
   insuranceRatePerHundred: number; // e.g. 1.05 per $100
   deliveryGuaranteeFee: number; // e.g. 2.99
   markupPercentage: number; // e.g. 0 for none, 10 for 10% handling markup
+  defaultPrinterIp?: string;
+  defaultPrinterPort?: number;
+  defaultPrinterFormat?: ThermalPrintFormat;
 }
 
 export interface CloverWebhookPayload {
@@ -260,3 +267,56 @@ export interface CloverOrder {
   shippingAddress?: Address;
   note?: string;
 }
+
+export type ThermalPrintFormat = 'ZPL' | 'ESCPOS';
+export type ReceiptPaperWidth = '80mm' | '58mm';
+export type ThermalPrinterModel = 'zebra' | 'rollo' | 'brother' | 'dymo' | 'clover' | 'generic';
+
+export interface PrinterPreset {
+  id: string;
+  name: string;
+  brand: string;
+  model: string;
+  defaultPort: number;
+  supportedFormats: ThermalPrintFormat[];
+  defaultDpi: number;
+  paperSizes: string[];
+  description: string;
+}
+
+export interface PrintJobRequest {
+  shipmentId: string;
+  printerIp: string;
+  printerPort?: number;
+  format?: ThermalPrintFormat;
+  paperWidth?: ReceiptPaperWidth;
+  copies?: number;
+}
+
+export interface PrintJobResult {
+  success: boolean;
+  jobId: string;
+  shipmentId: string;
+  trackingNumber: string;
+  format: ThermalPrintFormat;
+  bytesSent: number;
+  printerIp: string;
+  printerPort: number;
+  message: string;
+  timestamp: string;
+}
+
+export interface PrinterTestRequest {
+  printerIp: string;
+  printerPort?: number;
+  timeoutMs?: number;
+}
+
+export interface PrinterTestResult {
+  success: boolean;
+  ip: string;
+  port: number;
+  latencyMs?: number;
+  error?: string;
+}
+

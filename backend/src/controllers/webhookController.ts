@@ -9,7 +9,10 @@ export class WebhookController {
    * Handles incoming Clover webhook notifications (orders.updated, payments.created)
    */
   public static async handleCloverWebhook(req: Request, res: Response): Promise<void> {
-    const authHeader = req.headers['x-clover-auth'] as string | undefined;
+    const authHeader =
+      (req.headers['x-clover-auth'] as string | undefined) ||
+      (req.headers['x-clover-signature'] as string | undefined) ||
+      (req.headers['x-signature'] as string | undefined);
     const body = req.body;
 
     // Handle Clover URL verification handshake
@@ -22,8 +25,16 @@ export class WebhookController {
       return;
     }
 
+    // Extract raw payload for cryptographic HMAC-SHA256 verification
+    const rawPayload =
+      (req as any).rawBody !== undefined
+        ? (req as any).rawBody
+        : typeof body === 'string'
+        ? body
+        : JSON.stringify(body);
+
     // Verify webhook signature
-    if (!cloverService.verifyWebhookSignature(authHeader)) {
+    if (!cloverService.verifyWebhookSignature(authHeader, rawPayload)) {
       console.warn('Unauthorized Clover Webhook request received');
       res.status(401).json({ success: false, error: 'Unauthorized webhook signature' });
       return;

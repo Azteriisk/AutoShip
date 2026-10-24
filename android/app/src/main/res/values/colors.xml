@@ -53,6 +53,11 @@
     <color name="insurance_highlight_bg">#0C2B4E</color>
     <color name="insurance_highlight_text">#38BDF8</color>
 
+    <!-- Offline Fallback Banner Colors -->
+    <color name="offline_banner_bg">#451A03</color>
+    <color name="offline_banner_border">#D97706</color>
+    <color name="offline_banner_text">#FEF3C7</color>
+
     <color name="error_bg">#450A0A</color>
     <color name="error_text">#F87171</color>
     <color name="error_border">#EF4444</color>

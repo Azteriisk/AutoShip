@@ -15,6 +15,8 @@ import com.clover.sdk.v3.order.LineItem
 import com.clover.sdk.v3.order.Order
 import com.clover.sdk.v3.order.OrderConnector
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -25,6 +27,7 @@ import kotlinx.coroutines.withContext
 class CloverConnectorManager(private val context: Context) {
 
     private val tag = "CloverConnectorManager"
+    private val orderMutationMutex = Mutex()
     private var account: Account? = null
     private var orderConnector: OrderConnector? = null
     private var customerConnector: CustomerConnector? = null
@@ -137,6 +140,8 @@ class CloverConnectorManager(private val context: Context) {
 
     /**
      * Adds or replaces the shipping LineItem in the Clover active order.
+     * Uses an atomic Mutex lock to prevent concurrent double-tap execution,
+     * duplicate line item insertions, or race conditions during order mutation.
      * If shipping was waived via free shipping promotion, applies a line item discount.
      */
     suspend fun applyShippingToOrder(
@@ -145,66 +150,68 @@ class CloverConnectorManager(private val context: Context) {
         serviceName: String,
         grossRateCents: Long,
         waivedAmountCents: Long
-    ): Boolean = withContext(Dispatchers.IO) {
-        val connector = orderConnector
-        if (connector == null) {
-            Log.e(tag, "Cannot apply shipping: OrderConnector is null (non-Clover environment)")
-            return@withContext false
-        }
+    ): Boolean = orderMutationMutex.withLock {
+        withContext(Dispatchers.IO) {
+            val connector = orderConnector
+            if (connector == null) {
+                Log.e(tag, "Cannot apply shipping: OrderConnector is null (non-Clover environment)")
+                return@withContext false
+            }
 
-        try {
-            // 1. Fetch active order to see if a prior shipping line item exists
-            val currentOrder = connector.getOrder(orderId)
-            val itemsToDelete = mutableListOf<String>()
-            currentOrder?.lineItems?.forEach { item ->
-                if (isShippingLineItem(item.name)) {
-                    item.id?.let { itemsToDelete.add(it) }
+            try {
+                // 1. Fetch active order to see if a prior shipping line item exists
+                val currentOrder = connector.getOrder(orderId)
+                val itemsToDelete = mutableListOf<String>()
+                currentOrder?.lineItems?.forEach { item ->
+                    if (isShippingLineItem(item.name)) {
+                        item.id?.let { itemsToDelete.add(it) }
+                    }
                 }
-            }
 
-            if (itemsToDelete.isNotEmpty()) {
-                try {
-                    connector.deleteLineItems(orderId, itemsToDelete)
-                    Log.d(tag, "Removed existing shipping line items: $itemsToDelete")
-                } catch (e: Exception) {
-                    Log.w(tag, "Could not remove prior shipping items", e)
+                if (itemsToDelete.isNotEmpty()) {
+                    try {
+                        connector.deleteLineItems(orderId, itemsToDelete)
+                        Log.d(tag, "Removed existing shipping line items: $itemsToDelete")
+                    } catch (e: Exception) {
+                        Log.w(tag, "Could not remove prior shipping items", e)
+                    }
                 }
-            }
 
-            // 2. Build the custom LineItem
-            val shippingTitle = "Shipping: $carrier $serviceName"
-            val lineItem = LineItem().apply {
-                name = shippingTitle
-                price = grossRateCents
-            }
-
-            // 3. Add custom line item (non-taxable for standard shipping services)
-            val addedItem = connector.addCustomLineItem(orderId, lineItem, false)
-            Log.d(tag, "Successfully added custom line item: ${addedItem.id} at $grossRateCents cents")
-
-            // 4. If free shipping promotion applies, apply discount to this line item
-            if (waivedAmountCents > 0L) {
-                val discount = Discount().apply {
-                    name = "Free Shipping Promo"
-                    amount = -waivedAmountCents // Clover line item discounts use negative cents
+                // 2. Build the custom LineItem
+                val shippingTitle = "Shipping: $carrier $serviceName"
+                val lineItem = LineItem().apply {
+                    name = shippingTitle
+                    price = grossRateCents
                 }
-                connector.addLineItemDiscount(orderId, addedItem.id, discount)
-                Log.d(tag, "Applied free shipping discount of -$waivedAmountCents cents to line item ${addedItem.id}")
-            }
 
-            true
-        } catch (e: RemoteException) {
-            Log.e(tag, "Clover RemoteException while applying shipping", e)
-            false
-        } catch (e: ClientException) {
-            Log.e(tag, "Clover ClientException while applying shipping", e)
-            false
-        } catch (e: ServiceException) {
-            Log.e(tag, "Clover ServiceException while applying shipping", e)
-            false
-        } catch (e: Exception) {
-            Log.e(tag, "Unexpected error applying shipping line item to order $orderId", e)
-            false
+                // 3. Add custom line item (non-taxable for standard shipping services)
+                val addedItem = connector.addCustomLineItem(orderId, lineItem, false)
+                Log.d(tag, "Successfully added custom line item: ${addedItem.id} at $grossRateCents cents")
+
+                // 4. If free shipping promotion applies, apply discount to this line item
+                if (waivedAmountCents > 0L) {
+                    val discount = Discount().apply {
+                        name = "Free Shipping Promo"
+                        amount = -waivedAmountCents // Clover line item discounts use negative cents
+                    }
+                    connector.addLineItemDiscount(orderId, addedItem.id, discount)
+                    Log.d(tag, "Applied free shipping discount of -$waivedAmountCents cents to line item ${addedItem.id}")
+                }
+
+                true
+            } catch (e: RemoteException) {
+                Log.e(tag, "Clover RemoteException while applying shipping", e)
+                false
+            } catch (e: ClientException) {
+                Log.e(tag, "Clover ClientException while applying shipping", e)
+                false
+            } catch (e: ServiceException) {
+                Log.e(tag, "Clover ServiceException while applying shipping", e)
+                false
+            } catch (e: Exception) {
+                Log.e(tag, "Unexpected error applying shipping line item to order $orderId", e)
+                false
+            }
         }
     }
 

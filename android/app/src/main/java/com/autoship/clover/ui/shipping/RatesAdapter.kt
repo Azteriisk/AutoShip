@@ -87,10 +87,17 @@ class RatesAdapter(
                 rate.estimatedDelivery
             )
 
-            // Badge (e.g. BEST VALUE, FASTEST)
+            // Badge (e.g. BEST VALUE, FASTEST, OFFLINE)
             if (!rate.badge.isNullOrBlank()) {
                 binding.tvBadge.text = rate.badge
                 binding.tvBadge.visibility = View.VISIBLE
+                if (rate.isOfflineFallback) {
+                    binding.tvBadge.backgroundTintList = ContextCompat.getColorStateList(context, R.color.offline_banner_bg)
+                    binding.tvBadge.setTextColor(ContextCompat.getColor(context, R.color.offline_banner_text))
+                } else {
+                    binding.tvBadge.backgroundTintList = null
+                    binding.tvBadge.setTextColor(ContextCompat.getColor(context, R.color.badge_free_shipping_text))
+                }
             } else {
                 binding.tvBadge.visibility = View.GONE
             }
