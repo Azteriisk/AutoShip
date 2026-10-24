@@ -14,8 +14,8 @@ android {
         applicationId = "com.autoship.clover"
         minSdk = 25 // Supports Clover Station 2018 (API 25), Clover Flex 2/3/4, Clover Mini 2/3/4, Station Duo/Solo
         targetSdk = 28 // Clover POS OS Native Target (enables pure V1 JAR signature scheme)
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

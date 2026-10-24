@@ -1,6 +1,6 @@
 {
   "name": "autoship-backend",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "AutoShip - Automated Carrier Rates, Packaging, and Fulfillment for Clover POS",
   "main": "dist/index.js",
   "scripts": {

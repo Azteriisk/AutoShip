@@ -883,6 +883,9 @@ document.getElementById('btnQuickSimulate')?.addEventListener('click', async () 
       if (json.shipment?.id) {
         openLabelModal(json.shipment.id);
       }
+    } else {
+      showToast(`Demo order error: ${json.error || 'Failed to simulate sample order'}`);
+      alert(`Demo Order Walkthrough Error: ${json.error || 'Failed to simulate sample order'}`);
     }
   } catch (err) {
     alert(`Error running demo order: ${err.message}`);
